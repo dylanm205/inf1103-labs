@@ -1,8 +1,3 @@
-print("============================")
-print("Welcome here")
-print("My first post!")
-print("============================")
-
 username = input("Enter username: ")
 age = input("Enter age: ")
 category = input("Enter content category: ")
