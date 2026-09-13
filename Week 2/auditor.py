@@ -11,6 +11,11 @@ while True:
         if user_input.isdigit() == False:
             print("Invalid input. Please enter a valid stock quantity.")
             continue
+
         user_input = int(user_input)
-        inventory += user_input
-        print("Current inventory:", inventory)
+        if inventory + user_input > 500:
+            print("Inventory exceeded 500 units! Check the inventory immediately.")
+            break
+        else:
+            inventory += user_input
+            print("Current inventory:", inventory)
