@@ -12,4 +12,5 @@ while True:
             print("Invalid input. Please enter a valid stock quantity.")
             continue
         user_input = int(user_input)
-
+        inventory += user_input
+        print("Current inventory:", inventory)
