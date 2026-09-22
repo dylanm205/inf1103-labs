@@ -25,7 +25,10 @@ def process_delivery(current_total,new_value):
 def calculate_tax(amount):
      tax = amount * 0.10
      return tax
-     
+
+def generate_report(total_units, failed_attempts):
+     print("Total Units Processed:", total_units)
+     print("Total Failed Attempts:", failed_attempts)
      
 
 while True:
