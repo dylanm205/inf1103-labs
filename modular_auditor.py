@@ -22,6 +22,12 @@ def process_delivery(current_total,new_value):
      current_total += new_value
      return current_total
 
+def calculate_tax(amount):
+     tax = amount * 0.10
+     return tax
+     
+     
+
 while True:
     user_input = input("Enter stock quantity (or type 'quit' to exit): ")
     if user_input.lower() == 'quit':
