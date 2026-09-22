@@ -1,5 +1,6 @@
 failed = 0
 inventory = 0 
+deliveries_processed = 0 
 def get_valid_input():
     global failed
     while True:
@@ -27,31 +28,18 @@ def calculate_tax(amount):
      return tax
 
 def generate_report(total_units, failed_attempts):
-     print("Total Units Processed:", total_units)
+     print("Total Deliveries Processed:", total_units)
      print("Total Failed Attempts:", failed_attempts)
      
 
 while True:
-    user_input = input("Enter stock quantity (or type 'quit' to exit): ")
-    if user_input.lower() == 'quit':
-        print("Total Units Processed:", inventory)
-        print("Total Failed Attempts:", failed)
+    input_result = get_valid_input()
+    if input_result == "quit":
+        generate_report(deliveries_processed, failed)
         break
     else:
-        if "-"  in user_input:
-            if user_input.strip("-").isdigit() == True:
-                print("Invalid input. Please enter a non-negative stock quantity.")
-                failed += 1
-                continue
-        if user_input.isdigit() == False:
-            print("Invalid input. Please enter a valid stock quantity.")
-            failed += 1
-            continue
-
-        user_input = int(user_input)
-        if inventory + user_input > 500:
-            print("Inventory exceeded 500 units! Check the inventory immediately.")
-            break
-        else:
-            inventory += user_input
-            print("Current inventory:", inventory)
+        inventory = process_delivery(inventory, input_result)
+        tax = calculate_tax(input_result)
+        deliveries_processed += 1
+        print("Current inventory:", inventory)
+        print("Tax for this delivery:", tax)
