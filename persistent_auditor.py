@@ -1,13 +1,24 @@
 failed = 0
 inventory = 0 
 deliveries_processed = 0 
+
 def get_valid_input():
     global failed
     while True:
-        user_input = input("Enter stock quantity (or type 'quit' to exit): ")
-        if user_input.lower() == 'quit':
+        product_name = input("\nEnter Product name (or type 'quit' to exit): ")
+        if product_name.lower() == 'quit':
             return "quit"
-        else:
+        if product_name.strip() == "":
+            print("Invalid input. Product name cannot be empty.")
+            failed += 1
+            continue
+        if product_name.strip().isdigit():
+            print("Invalid input. Product name cannot be a number.")
+            failed += 1
+            continue
+
+        while True:
+            user_input = input("Enter Quantity: ") 
             if "-"  in user_input:
                     if user_input.strip("-").isdigit() == True:
                         print("Invalid input. Please enter a non-negative stock quantity.")
@@ -17,7 +28,7 @@ def get_valid_input():
                         print("Invalid input. Please enter a valid stock quantity.")
                         failed += 1
                         continue
-            return int(user_input)
+            return product_name,int(user_input)
         
 def process_delivery(current_total,new_value):
      current_total += new_value
@@ -32,6 +43,7 @@ def generate_report(total_units, failed_attempts):
      print("Total Failed Attempts:", failed_attempts)
 
 def load_inventory():
+    print("Current Orders:\n")
     history = []
     try:
         with open("inventory.txt", "r") as f:
@@ -54,8 +66,12 @@ while True:
         generate_report(deliveries_processed, failed)
         break
     else:
-        inventory = process_delivery(inventory, input_result)
-        tax = calculate_tax(input_result)
+        product_name, quantity = input_result
+        inventory = process_delivery(inventory, quantity)
+        tax = calculate_tax(quantity)
         deliveries_processed += 1
         print("Current inventory:", inventory)
         print("Tax for this delivery:", tax)
+        order_id = 1000 + len(inventorycheck) + 1
+        inventorycheck.append(f"{order_id}, {product_name}, {quantity}")
+        print(f"\nNew Order Added:\n{order_id},{product_name},{quantity}")
