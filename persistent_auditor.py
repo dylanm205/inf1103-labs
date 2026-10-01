@@ -45,24 +45,34 @@ def generate_report(total_units, failed_attempts):
 def load_inventory():
     print("Current Orders:\n")
     history = []
+    total = 0
     try:
         with open("inventory.txt", "r") as f:
             lines = f.readlines()
+            if lines:
+                total = int(lines[0].replace("Total:", "").strip())
+                lines = lines[1:]
             for i in range(len(lines)):
                 print(lines[i].strip())
                 history.append(lines[i].strip())
-        return history
+        return total, history
     except FileNotFoundError:
-        return []
+        return 0, []
 
-
+def save_inventory(total, inventory_data):
+    with open("inventory.txt", "w") as f:
+        f.write(f"Total: {total}\n")
+        for item in inventory_data:
+            f.write(f"{item}\n")
      
-inventorycheck = load_inventory()
+inventory, inventorycheck = load_inventory()
 if inventorycheck == []:
     print("No previous orders found.")
 while True:
     input_result = get_valid_input()
     if input_result == "quit":
+        save_inventory(inventory, inventorycheck)
+        print("\n Order successfully saved to inventory.txt")
         generate_report(deliveries_processed, failed)
         break
     else:
