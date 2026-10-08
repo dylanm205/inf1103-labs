@@ -7,7 +7,6 @@ example_products = [
 ]
 
 failed = 0
-deliveries_processed = 0 
 
 def get_valid_input():
     global failed
@@ -67,19 +66,9 @@ def add_product(inventory):
     product_id, product_name, price, stock = get_valid_input()
     product = {"id": product_id, "name": product_name, "price": price, "stock": stock}
     inventory.append(product)
-    print("\nProduct added successfully!")        
-        
-def process_delivery(current_total,new_value):
-     current_total += new_value
-     return current_total
+    save_inventory(inventory)
+    print("\nProduct added successfully!")  
 
-def calculate_tax(amount):
-     tax = amount * 0.10
-     return tax
-
-def generate_report(total_units, failed_attempts):
-     print("Total Deliveries Processed:", total_units)
-     print("Total Failed Attempts:", failed_attempts)
 
 def load_inventory():
     try:
@@ -92,11 +81,52 @@ def load_inventory():
         print("inventory.json not found. Starting with an empty inventory.")
         return []
 
-def save_inventory(total, inventory_data):
-    with open("inventory.txt", "w") as f:
-        f.write(f"Total: {total}\n")
-        for item in inventory_data:
-            f.write(f"{item}\n")
+def save_inventory(inventory):
+    with open("inventory.json", "w") as f:
+        json.dump(inventory, f, indent=4)
+
+def search_product(inventory, product_id):
+    for product in inventory:
+        if product["id"] == product_id:
+            return product
+    return None
+
+def update_stock(inventory):
+    print("\nUpdate Stock")
+    product_id = input("Enter Product ID: ")
+    product = search_product(inventory, product_id)
+    if product == None:
+        print("\nProduct not found.")
+        return
+
+    print("\nProduct Found:")
+    print(f"Name: {product['name']}")
+    print(f"Current Stock: {product['stock']}")
+    print()
+    while True:
+        user_input = input("New Stock Quantity: ")
+        if user_input.isdigit() == False:
+            print("Invalid input. Please enter a non-negative whole number.")
+            continue
+        product["stock"] = int(user_input)
+        break
+    print("\nStock updated successfully!")
+
+def show_product(inventory):
+    print("\nSearch Product")
+    product_id = input("Enter Product ID: ")
+    product = search_product(inventory, product_id)
+    if product == None:
+        print("\nProduct not found.")
+        return
+
+    print("\nProduct Found")
+    print("------------------------------------------------")
+    print(f"ID: {product['id']}")
+    print(f"Name: {product['name']}")
+    print(f"Price: ${product['price']:.2f}")
+    print(f"Stock: {product['stock']}")
+    print("------------------------------------------------")
 
 
 print("=========================================")     
@@ -112,27 +142,21 @@ while True:
         display_all(inventory)
     elif option == "2":
         add_product(inventory)
-    
-
-
-
-inventory, inventorycheck = load_inventory()
-if inventorycheck == []:
-    print("No previous orders found.")
-while True:
-    input_result = get_valid_input()
-    if input_result == "quit":
-        save_inventory(inventory, inventorycheck)
-        print("\n Order successfully saved to inventory.txt")
-        generate_report(deliveries_processed, failed)
+    elif option == "3":
+        update_stock(inventory)
+    elif option == "4":
+        show_product(inventory)
+    elif option == "5":
+        print("\nSaving inventory...")
+        save_inventory(inventory)
+        print("Inventory saved successfully to inventory.json.")
+    elif option == "6":
+        print("\nSaving inventory before exit...")
+        save_inventory(inventory)
+        print("Inventory saved successfully.")
+        print("\nThank you for using Inventory Management System.")
+        print("Program terminated.")
         break
     else:
-        product_name, quantity = input_result
-        inventory = process_delivery(inventory, quantity)
-        tax = calculate_tax(quantity)
-        deliveries_processed += 1
-        print("Current inventory:", inventory)
-        print("Tax for this delivery:", tax)
-        order_id = 1000 + len(inventorycheck) + 1
-        inventorycheck.append(f"{order_id}, {product_name}, {quantity}")
-        print(f"\nNew Order Added:\n{order_id},{product_name},{quantity}")
+        print("\nInvalid option. Please try again.")
+    
