@@ -1,6 +1,6 @@
 import json
 
-inventory = [
+example_products = [
     {"id": "P001", "name": "Laptop", "price": 1200.00, "stock": 15},
     {"id": "P002", "name": "Mouse", "price": 25.50, "stock": 40},
     {"id": "P003", "name": "Keyboard", "price": 45.00, "stock": 25},
@@ -102,6 +102,7 @@ def save_inventory(total, inventory_data):
 print("=========================================")     
 print("INVENTORY MANAGEMENT SYSTEM")
 print("=========================================")
+inventory = load_inventory()
 print("------------MENU------------")
 print("1. Display All Products\n2. Add Product\n3. Update Stock\n4. Search Product\n5. Save Inventory\n6. Exit")
 print("----------------------------")
