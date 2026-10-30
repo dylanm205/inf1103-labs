@@ -23,6 +23,31 @@ class Product:
         return {"id": self.__product_id, "name": self.__name,
                 "price": self.__price, "stock": self.__stock}
 
+class Inventory:
+    def __init__(self):
+        self.__products = []
+
+    def add_product(self, product):
+        self.__products.append(product)
+
+    def search_product(self, product_id):
+        for product in self.__products:
+            if product.get_product_id() == product_id:
+                return product
+        return None
+
+    def display_all(self):
+        print("\nCurrent Inventory")
+        print("-" * 48)
+        for product in self.__products:
+            product.display_information()
+        print("-" * 48)
+
+    def to_list(self):
+        product_list = []
+        for product in self.__products:
+            product_list.append(product.to_dict())
+        return product_list
 
 example_products = [
     {"id": "P001", "name": "Laptop", "price": 1200.00, "stock": 15},
@@ -183,8 +208,3 @@ while True:
         break
     else:
         print("\nInvalid option. Please try again.")
-p = Product("P009", "Test", 10.0, 5)
-p.display_information()
-p.update_stock(20)
-p.display_information()
-p.update_stock(-3)
