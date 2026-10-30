@@ -1,5 +1,29 @@
 import json
 
+class Product:
+    def __init__(self, product_id, name, price, stock):
+        self.__product_id = product_id
+        self.__name = name
+        self.__price = price
+        self.__stock = stock
+
+    def get_product_id(self):
+        return self.__product_id
+
+    def update_stock(self, quantity):
+        if quantity < 0:
+            print("Stock cannot be negative.")
+            return
+        self.__stock = quantity
+
+    def display_information(self):
+        print(f"ID: {self.__product_id} | Name: {self.__name} | Price: ${self.__price:.2f} | Stock: {self.__stock}")
+
+    def to_dict(self):
+        return {"id": self.__product_id, "name": self.__name,
+                "price": self.__price, "stock": self.__stock}
+
+
 example_products = [
     {"id": "P001", "name": "Laptop", "price": 1200.00, "stock": 15},
     {"id": "P002", "name": "Mouse", "price": 25.50, "stock": 40},
@@ -159,4 +183,8 @@ while True:
         break
     else:
         print("\nInvalid option. Please try again.")
-    
+p = Product("P009", "Test", 10.0, 5)
+p.display_information()
+p.update_stock(20)
+p.display_information()
+p.update_stock(-3)
