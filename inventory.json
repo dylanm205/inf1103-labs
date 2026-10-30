@@ -22,5 +22,11 @@
         "name": "Monitor",
         "price": 299.99,
         "stock": 10
+    },
+    {
+        "id": "P005",
+        "name": "HDMI Cable",
+        "price": 26.6,
+        "stock": 40
     }
 ]
