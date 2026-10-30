@@ -3,7 +3,7 @@
         "id": "P001",
         "name": "Laptop",
         "price": 1200.0,
-        "stock": 15
+        "stock": 10
     },
     {
         "id": "P002",
@@ -28,5 +28,11 @@
         "name": "HDMI Cable",
         "price": 26.6,
         "stock": 40
+    },
+    {
+        "id": "P006",
+        "name": "USB Hub",
+        "price": 19.9,
+        "stock": 20
     }
 ]
