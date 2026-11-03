@@ -1,54 +1,6 @@
 import json
-
-class Product:
-    def __init__(self, product_id, name, price, stock):
-        self.__product_id = product_id
-        self.__name = name
-        self.__price = price
-        self.__stock = stock
-
-    def get_product_id(self):
-        return self.__product_id
-
-    def update_stock(self, quantity):
-        if quantity < 0:
-            print("Stock cannot be negative.")
-            return
-        self.__stock = quantity
-
-    def display_information(self):
-        print(f"ID: {self.__product_id} | Name: {self.__name} | Price: ${self.__price:.2f} | Stock: {self.__stock}")
-
-    def to_dict(self):
-        return {"id": self.__product_id, "name": self.__name,
-                "price": self.__price, "stock": self.__stock}
-
-class Inventory:
-    def __init__(self):
-        self.__products = []
-
-    def add_product(self, product):
-        self.__products.append(product)
-
-    def search_product(self, product_id):
-        for product in self.__products:
-            if product.get_product_id() == product_id:
-                return product
-        return None
-
-    def display_all(self):
-        print("\nCurrent Inventory")
-        print("-" * 48)
-        for product in self.__products:
-            product.display_information()
-        print("-" * 48)
-
-    def to_list(self):
-        product_list = []
-        for product in self.__products:
-            product_list.append(product.to_dict())
-        return product_list
-
+from product import Product
+from inventory import Inventory
 
 
 failed = 0
@@ -101,7 +53,6 @@ def get_valid_input():
 
 
 
-
 def add_product(inventory):
     product_id, product_name, price, stock = get_valid_input()
     product = Product(product_id, product_name, price, stock)
@@ -127,7 +78,6 @@ def load_inventory():
 def save_inventory(inventory):
     with open("inventory.json", "w") as f:
         json.dump(inventory.to_list(), f, indent=4)
-
 
 
 def update_stock(inventory):

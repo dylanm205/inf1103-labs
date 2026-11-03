@@ -3,7 +3,7 @@
         "id": "P001",
         "name": "Laptop",
         "price": 1200.0,
-        "stock": 10
+        "stock": 25
     },
     {
         "id": "P002",
@@ -34,5 +34,11 @@
         "name": "USB Hub",
         "price": 19.9,
         "stock": 20
+    },
+    {
+        "id": "P007",
+        "name": "Controller",
+        "price": 15.9,
+        "stock": 50
     }
 ]
