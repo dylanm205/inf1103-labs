@@ -1,4 +1,6 @@
-class Product:
+from abc import ABC, abstractmethod     
+
+class Product(ABC):                      
     def __init__(self, product_id, name, price, stock):
         self.__product_id = product_id
         self.__name = name
@@ -20,3 +22,7 @@ class Product:
     def to_dict(self):
         return {"id": self.__product_id, "name": self.__name,
                 "price": self.__price, "stock": self.__stock}
+
+    @abstractmethod                         
+    def get_fulfilment_info(self):
+        pass
