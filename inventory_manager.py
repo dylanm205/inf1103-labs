@@ -1,5 +1,7 @@
 import json
-from product import Product
+from physical_product import PhysicalProduct
+from digital_product import DigitalProduct
+from can_be_shipped import CanBeShipped
 from inventory import Inventory
 
 
@@ -55,7 +57,33 @@ def get_valid_input():
 
 def add_product(inventory):
     product_id, product_name, price, stock = get_valid_input()
-    product = Product(product_id, product_name, price, stock)
+    while True:
+        product_type = input("Product Type (1 = Physical, 2 = Digital): ")
+        if product_type == "1" or product_type == "2":
+            break
+        print("Invalid input. Please enter 1 or 2.")
+
+    if product_type == "1":
+        prompt = "Weight (kg): "
+    else:
+        prompt = "Download Size (MB): "
+
+    while True:
+        value = input(prompt)
+        if "-" in value:
+            print("Invalid input. Please enter a non-negative number.")
+            continue
+        if value.replace(".", "", 1).isdigit() == False:
+            print("Invalid input. Please enter a valid number.")
+            continue
+        value = float(value)
+        break
+
+    if product_type == "1":
+        product = PhysicalProduct(product_id, product_name, price, stock, value)
+    else:
+        product = DigitalProduct(product_id, product_name, price, stock, value)
+
     inventory.add_product(product)
     save_inventory(inventory)
     print("\nProduct added successfully!")
@@ -67,7 +95,10 @@ def load_inventory():
         with open("inventory.json", "r") as f:
             data = json.load(f)
         for item in data:
-            product = Product(item["id"], item["name"], item["price"], item["stock"])
+            if item["type"] == "physical":
+                product = PhysicalProduct(item["id"], item["name"], item["price"], item["stock"], item["weight"])
+            else:
+                product = DigitalProduct(item["id"], item["name"], item["price"], item["stock"], item["download_size"])
             inventory.add_product(product)
         print("inventory.json found.")
         print("Inventory loaded successfully.")
@@ -110,6 +141,7 @@ def show_product(inventory):
 
     print("\nProduct Found")
     product.display_information()
+    print(product.get_fulfilment_info())
 
 
 print("=========================================")     
