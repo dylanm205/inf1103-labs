@@ -114,7 +114,7 @@ def save_inventory(inventory):
 def update_stock(inventory):
     print("\nUpdate Stock")
     product_id = input("Enter Product ID: ")
-    product = inventory.search_product(product_id)
+    product = inventory.find_product(product_id)
     if product == None:
         print("\nProduct not found.")
         return
@@ -134,7 +134,7 @@ def update_stock(inventory):
 def show_product(inventory):
     print("\nSearch Product")
     product_id = input("Enter Product ID: ")
-    product = inventory.search_product(product_id)
+    product = inventory.find_product(product_id)
     if product == None:
         print("\nProduct not found.")
         return
