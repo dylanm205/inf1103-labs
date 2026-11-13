@@ -4,6 +4,11 @@
         "name": "Laptop",
         "price": 1200.0,
         "stock": 25,
+        "supplier": {
+            "supplier_id": "S001",
+            "name": "Tech Pte Ltd",
+            "contact_email": "sales@tech.com"
+        },
         "type": "physical",
         "weight": 2.0
     },
@@ -12,6 +17,11 @@
         "name": "Mouse",
         "price": 25.5,
         "stock": 50,
+        "supplier": {
+            "supplier_id": "S001",
+            "name": "Tech Pte Ltd",
+            "contact_email": "sales@tech.com"
+        },
         "type": "physical",
         "weight": 0.1
     },
@@ -20,6 +30,11 @@
         "name": "Keyboard",
         "price": 45.0,
         "stock": 25,
+        "supplier": {
+            "supplier_id": "S002",
+            "name": "Gadget Pte Ltd",
+            "contact_email": "sales@gadget.com"
+        },
         "type": "physical",
         "weight": 0.8
     },
@@ -28,7 +43,25 @@
         "name": "Antivirus Software",
         "price": 59.99,
         "stock": 100,
+        "supplier": {
+            "supplier_id": "S003",
+            "name": "Digital Solutions",
+            "contact_email": "sales@digital.com"
+        },
         "type": "digital",
         "download_size": 850
+    },
+    {
+        "id": "D002",
+        "name": "Music app",
+        "price": 19.99,
+        "stock": 50,
+        "supplier": {
+            "supplier_id": "S004",
+            "name": "Music",
+            "contact_email": "sales@music.com"
+        },
+        "type": "digital",
+        "download_size": 100.0
     }
 ]

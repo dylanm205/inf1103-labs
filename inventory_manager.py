@@ -3,7 +3,7 @@ from physical_product import PhysicalProduct
 from digital_product import DigitalProduct
 from can_be_shipped import CanBeShipped
 from inventory import Inventory
-
+from supplier import Supplier
 
 failed = 0
 
@@ -78,11 +78,15 @@ def add_product(inventory):
             continue
         value = float(value)
         break
+    supplier_id = input("Supplier ID: ")
+    supplier_name = input("Supplier Name: ")
+    supplier_email = input("Supplier Email: ")
+    supplier = Supplier(supplier_id, supplier_name, supplier_email)
 
     if product_type == "1":
-        product = PhysicalProduct(product_id, product_name, price, stock, value)
+        product = PhysicalProduct(product_id, product_name, price, stock, supplier, value)
     else:
-        product = DigitalProduct(product_id, product_name, price, stock, value)
+        product = DigitalProduct(product_id, product_name, price, stock, supplier, value)
 
     inventory.add_product(product)
     save_inventory(inventory)
@@ -94,11 +98,17 @@ def load_inventory():
     try:
         with open("inventory.json", "r") as f:
             data = json.load(f)
+        suppliers = {}
         for item in data:
+            s = item["supplier"]
+            if s["supplier_id"] not in suppliers:
+                suppliers[s["supplier_id"]] = Supplier(s["supplier_id"], s["name"], s["contact_email"])
+            supplier = suppliers[s["supplier_id"]]
+
             if item["type"] == "physical":
-                product = PhysicalProduct(item["id"], item["name"], item["price"], item["stock"], item["weight"])
+                product = PhysicalProduct(item["id"], item["name"], item["price"], item["stock"], supplier, item["weight"])
             else:
-                product = DigitalProduct(item["id"], item["name"], item["price"], item["stock"], item["download_size"])
+                product = DigitalProduct(item["id"], item["name"], item["price"], item["stock"], supplier, item["download_size"])
             inventory.add_product(product)
         print("inventory.json found.")
         print("Inventory loaded successfully.")

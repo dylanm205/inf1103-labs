@@ -28,8 +28,7 @@ class Product(ABC):
         print(f"ID: {self.__product_id} | Name: {self.__name} | Price: ${self.__price:.2f} | Stock: {self.__stock}")
 
     def to_dict(self) -> dict:
-        return {"id": self.__product_id, "name": self.__name,
-                "price": self.__price, "stock": self.__stock}
+        return {"id": self.__product_id, "name": self.__name,"price": self.__price, "stock": self.__stock,"supplier": self.__supplier.to_dict()}
 
     @abstractmethod
     def get_fulfilment_info(self) -> str:

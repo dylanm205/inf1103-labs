@@ -6,6 +6,9 @@ class Supplier:
 
     def get_supplier_id(self) -> str:
         return self.__supplier_id
+    
+    def to_dict(self) -> dict:
+        return {"supplier_id": self.__supplier_id, "name": self.__name,"contact_email": self.__contact_email}
 
     def display_information(self) -> None:
         print(f"Supplier: {self.__name} ({self.__supplier_id}) | Email: {self.__contact_email}")
