@@ -3,6 +3,7 @@ from product_factory import ProductFactory
 from can_be_shipped import CanBeShipped
 from inventory import Inventory
 from supplier import Supplier
+from input_helpers import get_positive_float
 
 failed = 0
 
@@ -26,18 +27,7 @@ def get_valid_input():
             failed += 1
             continue
 
-        while True:
-            price_input = input("Price: ")
-            if "-" in price_input:
-                print("Invalid input. Please enter a non-negative price.")
-                failed += 1
-                continue
-            if price_input.replace(".", "", 1).isdigit() == False:
-                print("Invalid input. Please enter a valid price.")
-                failed += 1
-                continue
-            price = float(price_input)
-            break
+        price = get_positive_float("Price: ")
 
         while True:
             user_input = input("Stock Quantity: ")
