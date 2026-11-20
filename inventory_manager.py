@@ -1,6 +1,5 @@
 import json
-from physical_product import PhysicalProduct
-from digital_product import DigitalProduct
+from product_factory import ProductFactory
 from can_be_shipped import CanBeShipped
 from inventory import Inventory
 from supplier import Supplier
@@ -64,8 +63,10 @@ def add_product(inventory):
         print("Invalid input. Please enter 1 or 2.")
 
     if product_type == "1":
+        product_type = "physical"
         prompt = "Weight (kg): "
     else:
+        product_type = "digital"
         prompt = "Download Size (MB): "
 
     while True:
@@ -83,10 +84,14 @@ def add_product(inventory):
     supplier_email = input("Supplier Email: ")
     supplier = Supplier(supplier_id, supplier_name, supplier_email)
 
-    if product_type == "1":
-        product = PhysicalProduct(product_id, product_name, price, stock, supplier, value)
+    weight = 0.0
+    download_size = 0.0
+    if product_type == "physical":
+        weight = value
     else:
-        product = DigitalProduct(product_id, product_name, price, stock, supplier, value)
+        download_size = value
+
+    product = ProductFactory.create(product_type, product_id, product_name, price, stock, supplier, weight, download_size)
 
     inventory.add_product(product)
     save_inventory(inventory)
@@ -104,11 +109,7 @@ def load_inventory():
             if s["supplier_id"] not in suppliers:
                 suppliers[s["supplier_id"]] = Supplier(s["supplier_id"], s["name"], s["contact_email"])
             supplier = suppliers[s["supplier_id"]]
-
-            if item["type"] == "physical":
-                product = PhysicalProduct(item["id"], item["name"], item["price"], item["stock"], supplier, item["weight"])
-            else:
-                product = DigitalProduct(item["id"], item["name"], item["price"], item["stock"], supplier, item["download_size"])
+            product = ProductFactory.create(item["type"], item["id"], item["name"], item["price"], item["stock"],supplier, item.get("weight", 0.0), item.get("download_size", 0.0))
             inventory.add_product(product)
         print("inventory.json found.")
         print("Inventory loaded successfully.")
